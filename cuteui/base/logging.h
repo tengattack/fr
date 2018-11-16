@@ -1,4 +1,4 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+﻿// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -13,6 +13,7 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <memory>
 
 #include "base/base_export.h"
 // #include "base/callback_forward.h"
@@ -22,6 +23,9 @@
 #include "base/string/string_piece_forward.h"
 // #include "base/template_util.h"
 #include "build/build_config.h"
+
+// 修改添加的
+#include "../../../crow/include/crow/crow.hpp"
 
 //
 // Optional message capabilities
@@ -144,7 +148,6 @@
 // ERROR in normal mode.
 
 namespace logging {
-
 // TODO(avi): do we want to do a unification of character types here?
 #if defined(OS_WIN)
 typedef wchar_t PathChar;
@@ -200,6 +203,7 @@ struct BASE_EXPORT LoggingSettings {
   const PathChar* log_file;
   LogLockingState lock_log;
   OldFileDeletionState delete_old;
+  std::shared_ptr<nlohmann::crow> sentry_client;
 };
 
 // Define different names for the BaseInitLoggingImpl() function depending on

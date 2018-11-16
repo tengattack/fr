@@ -1,4 +1,4 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+﻿// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -96,6 +96,8 @@ const char* log_severity_name(int severity) {
     return log_severity_names[severity];
   return "UNKNOWN";
 }
+// 自行添加的
+std::shared_ptr<nlohmann::crow> g_sentry_client;
 
 int g_min_log_level = 0;
 
@@ -377,6 +379,7 @@ LoggingSettings::LoggingSettings()
       delete_old(APPEND_TO_OLD_LOG_FILE) {}
 
 bool BaseInitLoggingImpl(const LoggingSettings& settings) {
+  g_sentry_client = settings.sentry_client;
 #if defined(OS_NACL)
   // Can log only to the system debug log.
   CHECK_EQ(settings.logging_dest & ~LOG_TO_SYSTEM_DEBUG_LOG, 0);
@@ -765,6 +768,12 @@ LogMessage::~LogMessage() {
       fflush(g_log_file);
 #endif
     }
+  }
+
+  if (nullptr != logging::g_sentry_client && severity_ == LOG_ERROR) {
+    size_t start = str_newline.find(':');
+    logging::g_sentry_client->capture_message(std::string("[") +
+                                              str_newline.substr(start + 1));
   }
 
   if (severity_ == LOG_FATAL) {
