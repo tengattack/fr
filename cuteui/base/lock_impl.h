@@ -9,6 +9,7 @@
 #include "build/build_config.h"
 
 #if defined(OS_WIN)
+#include <WinSock2.h>
 #include <windows.h>
 #elif defined(OS_POSIX)
 #include <pthread.h>
