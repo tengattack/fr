@@ -770,7 +770,11 @@ LogMessage::~LogMessage() {
     }
   }
 
-  if (nullptr != logging::g_sentry_client && severity_ == LOG_ERROR) {
+  bool need_send_to_sentry = (severity_ >= LOG_ERROR);
+#ifdef _DEBUG
+  need_send_to_sentry = true;
+#endif
+  if (need_send_to_sentry && nullptr != logging::g_sentry_client) {
     size_t start = str_newline.find(':');
     logging::g_sentry_client->capture_message(std::string("[") +
                                               str_newline.substr(start + 1));
