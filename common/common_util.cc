@@ -1,7 +1,4 @@
-﻿#include <WinSock2.h>
-#include <Windows.h>
-
-#include "bbiconv.cc"
+﻿#include "bbiconv.cc"
 #include "Buffer.cpp"
 #include "properties.cpp"
 #include "strconv.cpp"
