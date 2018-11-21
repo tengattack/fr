@@ -1,6 +1,4 @@
-
-#include "stdafx.h"
-
+﻿
 #include "bbiconv.cc"
 #include "Buffer.cpp"
 #include "properties.cpp"

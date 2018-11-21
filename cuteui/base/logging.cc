@@ -97,7 +97,8 @@ const char* log_severity_name(int severity) {
   return "UNKNOWN";
 }
 // 自行添加的
-std::shared_ptr<nlohmann::crow> g_sentry_client;
+LoggingSettings::Callback g_callback = nullptr;
+void* g_user_data = nullptr;
 
 int g_min_log_level = 0;
 
@@ -379,7 +380,7 @@ LoggingSettings::LoggingSettings()
       delete_old(APPEND_TO_OLD_LOG_FILE) {}
 
 bool BaseInitLoggingImpl(const LoggingSettings& settings) {
-  g_sentry_client = settings.sentry_client;
+  g_callback = settings.callback;
 #if defined(OS_NACL)
   // Can log only to the system debug log.
   CHECK_EQ(settings.logging_dest & ~LOG_TO_SYSTEM_DEBUG_LOG, 0);
@@ -770,11 +771,7 @@ LogMessage::~LogMessage() {
     }
   }
 
-  if (nullptr != logging::g_sentry_client && severity_ == LOG_ERROR) {
-    size_t start = str_newline.find(':');
-    logging::g_sentry_client->capture_message(std::string("[") +
-                                              str_newline.substr(start + 1));
-  }
+  if (nullptr != g_callback) g_callback(str_newline, severity_, g_user_data);
 
   if (severity_ == LOG_FATAL) {
     // Write the log message to the global activity tracker, if running.

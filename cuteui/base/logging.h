@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <utility>
 #include <memory>
+#include <functional>
 
 #include "base/base_export.h"
 // #include "base/callback_forward.h"
@@ -23,9 +24,6 @@
 #include "base/string/string_piece_forward.h"
 // #include "base/template_util.h"
 #include "build/build_config.h"
-
-// 修改添加的
-#include "../../../crow/include/crow/crow.hpp"
 
 //
 // Optional message capabilities
@@ -203,7 +201,10 @@ struct BASE_EXPORT LoggingSettings {
   const PathChar* log_file;
   LogLockingState lock_log;
   OldFileDeletionState delete_old;
-  std::shared_ptr<nlohmann::crow> sentry_client;
+  using Callback =
+      std::function<void(std::string log, int severity, void* user_data)>;
+  Callback callback = nullptr;
+  void* user_data = nullptr;
 };
 
 // Define different names for the BaseInitLoggingImpl() function depending on
