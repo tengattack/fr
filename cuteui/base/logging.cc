@@ -97,8 +97,7 @@ const char* log_severity_name(int severity) {
   return "UNKNOWN";
 }
 // 自行添加的
-void EmptyCb(std::string log, int severity, void* user_data) { return; }
-LoggingSettings::Callback g_callback = EmptyCb;
+LoggingSettings::Callback g_callback = nullptr;
 void* g_user_data = nullptr;
 
 int g_min_log_level = 0;
@@ -381,7 +380,7 @@ LoggingSettings::LoggingSettings()
       delete_old(APPEND_TO_OLD_LOG_FILE) {}
 
 bool BaseInitLoggingImpl(const LoggingSettings& settings) {
-  g_callback = nullptr == settings.callback ? EmptyCb : settings.callback;
+  g_callback = settings.callback;
 #if defined(OS_NACL)
   // Can log only to the system debug log.
   CHECK_EQ(settings.logging_dest & ~LOG_TO_SYSTEM_DEBUG_LOG, 0);
@@ -772,7 +771,7 @@ LogMessage::~LogMessage() {
     }
   }
 
-  g_callback(str_newline, severity_, g_user_data);
+  if (nullptr != g_callback) g_callback(str_newline, severity_, g_user_data);
 
   if (severity_ == LOG_FATAL) {
     // Write the log message to the global activity tracker, if running.
