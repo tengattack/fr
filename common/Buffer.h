@@ -9,7 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <windows.h>
+#include <WinSock2.h>
+#include <Windows.h>
 
 class CBuffer  
 {

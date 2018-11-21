@@ -1,4 +1,6 @@
 
+#include "stdafx.h"
+
 //add _NO_GDIPLUS_
 #ifndef _CRT_RAND_S
 #define _CRT_RAND_S
