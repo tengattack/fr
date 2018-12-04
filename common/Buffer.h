@@ -33,10 +33,10 @@ public:
 
 	UINT Delete(UINT nSize);
 	UINT Read(PBYTE pData, UINT nSize);
-	BOOL Write(PBYTE pData, UINT nSize);
-	BOOL WriteZeroByte();
+	int Write(const unsigned char* pData, UINT nSize);
+	int WriteZeroByte();
 //	BOOL Write(CString& strData);
-	UINT GetBufferLen();
+	UINT GetBufferLen() const;
 	UINT GetMemSize();
 	int Scan(PBYTE pScan,UINT nPos);
 	BOOL Insert(PBYTE pData, UINT nSize);
