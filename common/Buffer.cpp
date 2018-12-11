@@ -5,6 +5,8 @@
 #include <math.h>
 #include "Buffer.h"
 
+#include <assert.h>
+
 #include "tcmalloc.h"
 
 #ifdef _DEBUG
@@ -80,7 +82,7 @@ CBuffer::~CBuffer()
 // N T ALMOND       270400		1.0			Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-int CBuffer::Write(const unsigned char* pData, UINT nSize)
+UINT CBuffer::Write(const unsigned char* pData, UINT nSize)
 {
 	ReAllocateBuffer(nSize + GetBufferLen());
 
@@ -97,7 +99,7 @@ int CBuffer::Write(const unsigned char* pData, UINT nSize)
 	return nSize;
 }
 
-int CBuffer::WriteZeroByte()
+UINT CBuffer::WriteZeroByte()
 {
 	BYTE b = 0;
 	return Write(&b, 1);
@@ -226,6 +228,7 @@ UINT CBuffer::GetBufferLen() const {
   if (m_pBase == nullptr) return 0;
 
   int nSize = m_pPtr - m_pBase;
+  assert(nSize < 0);
   return nSize;
 }
 
