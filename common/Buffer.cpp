@@ -5,6 +5,8 @@
 #include <math.h>
 #include "Buffer.h"
 
+#include <assert.h>
+
 #include "tcmalloc.h"
 
 #ifdef _DEBUG
@@ -80,7 +82,7 @@ CBuffer::~CBuffer()
 // N T ALMOND       270400		1.0			Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-BOOL CBuffer::Write(PBYTE pData, UINT nSize)
+UINT CBuffer::Write(const unsigned char* pData, UINT nSize)
 {
 	ReAllocateBuffer(nSize + GetBufferLen());
 
@@ -97,7 +99,7 @@ BOOL CBuffer::Write(PBYTE pData, UINT nSize)
 	return nSize;
 }
 
-BOOL CBuffer::WriteZeroByte()
+UINT CBuffer::WriteZeroByte()
 {
 	BYTE b = 0;
 	return Write(&b, 1);
@@ -119,7 +121,7 @@ BOOL CBuffer::WriteZeroByte()
 // N T ALMOND       270400		1.0			Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-BOOL CBuffer::Insert(PBYTE pData, UINT nSize)
+UINT CBuffer::Insert(PBYTE pData, UINT nSize)
 {
 	ReAllocateBuffer(nSize + GetBufferLen());
 	
@@ -222,14 +224,11 @@ UINT CBuffer::GetMemSize()
 // N T ALMOND       270400		1.0			Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-UINT CBuffer::GetBufferLen() 
-{
-	if (m_pBase == NULL)
-		return 0;
+UINT CBuffer::GetBufferLen() const {
+  if (m_pBase == nullptr) return 0;
 
-	int nSize = 
-		m_pPtr - m_pBase;
-	return nSize;
+  assert(m_pPtr >= m_pBase);
+  return m_pPtr - m_pBase;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
