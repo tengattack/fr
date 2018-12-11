@@ -121,7 +121,7 @@ UINT CBuffer::WriteZeroByte()
 // N T ALMOND       270400		1.0			Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-BOOL CBuffer::Insert(PBYTE pData, UINT nSize)
+UINT CBuffer::Insert(PBYTE pData, UINT nSize)
 {
 	ReAllocateBuffer(nSize + GetBufferLen());
 	
@@ -227,9 +227,8 @@ UINT CBuffer::GetMemSize()
 UINT CBuffer::GetBufferLen() const {
   if (m_pBase == nullptr) return 0;
 
-  int nSize = m_pPtr - m_pBase;
-  assert(nSize < 0);
-  return nSize;
+  assert(m_pPtr >= m_pBase);
+  return m_pPtr - m_pBase;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

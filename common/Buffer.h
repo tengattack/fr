@@ -39,7 +39,7 @@ public:
 	UINT GetBufferLen() const;
 	UINT GetMemSize();
 	int Scan(PBYTE pScan,UINT nPos);
-	BOOL Insert(PBYTE pData, UINT nSize);
+  UINT Insert(PBYTE pData, UINT nSize);
 //	BOOL Insert(CString& strData);
 
 	void Copy(CBuffer& buffer);	
