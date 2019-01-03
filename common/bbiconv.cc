@@ -1,4 +1,4 @@
-//
+﻿//
 #include "bbiconv.h"
 
 #if !(defined(WIN32) || defined(_WIN32) )

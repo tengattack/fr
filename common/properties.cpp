@@ -42,7 +42,7 @@ void Properties::Get(LPCSTR name, std::string& data)
 
 void Properties::Get(int i, std::string& data)
 {
-	if (i < m_pro.size() && i >= 0)
+	if (i < (int)m_pro.size() && i >= 0)
 	{
 		PropertiesMap::iterator it = m_pro.begin();
 		for (int j = 0; j < i; j++)

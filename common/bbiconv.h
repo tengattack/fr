@@ -1,4 +1,4 @@
-#ifndef __BB_ICONV_H__
+﻿#ifndef __BB_ICONV_H__
 #define __BB_ICONV_H__
 
 ///////////////////////////////////////////////////////
