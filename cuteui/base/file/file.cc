@@ -165,33 +165,6 @@ bool CFile::OpenA(unsigned long mode, LPCSTR lpszPath)
 	return m_opened;
 }
 
-bool CFile::OpenLog(unsigned long mode, LPCWSTR lpszPath)
-{
-  // close prev file
-  Close();
-
-  DWORD dwDesiredAccess = 0;
-  DWORD dwShareMode = 0;
-  DWORD dwCreationDisposition = 0;
-
-  if (mode & kFileCreate) {
-    dwDesiredAccess = GENERIC_READ | GENERIC_WRITE;
-    dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
-    dwCreationDisposition = CREATE_ALWAYS;
-  }
-  if (mode & kFileRead) {
-    dwDesiredAccess |= GENERIC_READ;
-    dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
-    dwCreationDisposition = OPEN_EXISTING;
-  }
-
-
-  m_hFile = CreateFileW(lpszPath, dwDesiredAccess, dwShareMode, NULL,
-                        dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, NULL);
-  m_opened = (m_hFile != INVALID_HANDLE_VALUE);
-  return m_opened;
-}
-
 bool CFile::SetPointer(uint32 offset, unsigned long dwMoveMethod)
 {
 	LARGE_INTEGER li = {0};
