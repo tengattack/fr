@@ -205,7 +205,7 @@ extern "C" {
 		{
 #ifdef WIN32
 			_out[0] = '\0';
-			_itoa_s(count , _out , 10 );
+			_itoa_s(count , _out , 10);
 #else
 			sprintf(_out, "%d", count);
 #endif

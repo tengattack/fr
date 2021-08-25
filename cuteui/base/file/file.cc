@@ -76,10 +76,14 @@ bool CFile::Flush()
 		return false;
 }
 
-bool CFile::Delete(LPCWSTR lpszPath) 
-{ 
-	m_deleted = DeleteFile(lpszPath);
-	return m_deleted;
+bool CFile::DeleteW(LPCWSTR lpszPath)
+{	
+	return DeleteFileW(lpszPath);
+}
+
+bool CFile::DeleteA(LPCSTR lpszPath)
+{
+	return DeleteFileA(lpszPath);
 }
 
 bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
@@ -115,7 +119,7 @@ bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
 				dwShareMode, 
 				NULL,
 				dwCreationDisposition,
-				FILE_ATTRIBUTE_NORMAL, 
+				FILE_ATTRIBUTE_NORMAL,
 				NULL);
 	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
 	return m_opened;
@@ -151,41 +155,67 @@ bool CFile::OpenA(unsigned long mode, LPCSTR lpszPath)
 
 	m_hFile = CreateFileA(lpszPath,
 				dwDesiredAccess,
-				dwShareMode, 
+				dwShareMode,
 				NULL,
 				dwCreationDisposition,
-				FILE_ATTRIBUTE_NORMAL, 
+				FILE_ATTRIBUTE_NORMAL,
 				NULL);
 
 	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
 	return m_opened;
 }
 
-bool CFile::OpenLog(unsigned long mode, LPCWSTR lpszPath)
+bool CFile::ShareOpenW(unsigned long mode, LPCWSTR lpszPath)
 {
-  // close prev file
-  Close();
+	// close prev file
+	Close();
 
-  DWORD dwDesiredAccess = 0;
-  DWORD dwShareMode = 0;
-  DWORD dwCreationDisposition = 0;
+	DWORD dwDesiredAccess = 0;
+	DWORD dwShareMode = 0;
+	DWORD dwCreationDisposition = 0;
 
-  if (mode & kFileCreate) {
-    dwDesiredAccess = GENERIC_READ | GENERIC_WRITE;
-    dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
-    dwCreationDisposition = CREATE_ALWAYS;
-  }
-  if (mode & kFileRead) {
-    dwDesiredAccess |= GENERIC_READ;
-    dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
-    dwCreationDisposition = OPEN_EXISTING;
-  }
+	if (mode & kFileCreate) {
+	dwDesiredAccess = GENERIC_READ | GENERIC_WRITE;
+	dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
+	dwCreationDisposition = CREATE_ALWAYS;
+	}
+	if (mode & kFileRead) {
+	dwDesiredAccess |= GENERIC_READ;
+	dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
+	dwCreationDisposition = OPEN_EXISTING;
+	}
 
 
-  m_hFile = CreateFileW(lpszPath, dwDesiredAccess, dwShareMode, NULL,
-                        dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, NULL);
-  m_opened = (m_hFile != INVALID_HANDLE_VALUE);
-  return m_opened;
+	m_hFile = CreateFileW(lpszPath, dwDesiredAccess, dwShareMode, NULL,
+						dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, NULL);
+	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
+	return m_opened;
+}
+
+bool CFile::ShareOpenA(unsigned long mode, LPCSTR lpszPath)
+{
+	// close prev file
+	Close();
+
+	DWORD dwDesiredAccess = 0;
+	DWORD dwShareMode = 0;
+	DWORD dwCreationDisposition = 0;
+
+	if (mode & kFileCreate) {
+	dwDesiredAccess = GENERIC_READ | GENERIC_WRITE;
+	dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
+	dwCreationDisposition = CREATE_ALWAYS;
+	}
+	if (mode & kFileRead) {
+	dwDesiredAccess |= GENERIC_READ;
+	dwShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
+	dwCreationDisposition = OPEN_EXISTING;
+	}
+
+	m_hFile = CreateFileA(lpszPath, dwDesiredAccess, dwShareMode, NULL,
+						dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, NULL);
+	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
+	return m_opened;
 }
 
 bool CFile::SetPointer(uint32 offset, unsigned long dwMoveMethod)
