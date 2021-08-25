@@ -29,24 +29,8 @@ namespace base{
 			return OpenA(mode, lpszPath);
 #endif
 		}
-		inline bool ShareOpen(unsigned long mode, LPCTSTR lpszPath) {
-#ifdef _UNICODE
-			return ShareOpenW(mode, lpszPath);
-#else
-			return ShareOpenA(mode, lpszPath);
-#endif
-		}
-		static inline bool Delete(LPCTSTR lpszPath) {
-#ifdef _UNICODE
-			return DeleteW(lpszPath);
-#else
-			return DeleteA(lpszPath);
-#endif
-		}
 		bool OpenW(unsigned long mode, LPCWSTR lpszPath);
 		bool OpenA(unsigned long mode, LPCSTR lpszPath);
-		bool ShareOpenW(unsigned long mode, LPCWSTR lpszPath);
-		bool ShareOpenA(unsigned long mode, LPCSTR lpszPath);
 
 		bool IsOpen();
 		void Close();
@@ -58,6 +42,13 @@ namespace base{
 
 		bool Flush();
 
+		static inline bool Delete(LPCTSTR lpszPath) {
+#ifdef _UNICODE
+			return DeleteW(lpszPath);
+#else
+			return DeleteA(lpszPath);
+#endif
+		}
 		static bool DeleteW(LPCWSTR lpszPath);
 		static bool DeleteA(LPCSTR lpszPath);
 
