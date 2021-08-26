@@ -76,6 +76,16 @@ bool CFile::Flush()
 		return false;
 }
 
+bool CFile::DeleteW(LPCWSTR lpszPath)
+{
+	return DeleteFileW(lpszPath);
+}
+
+bool CFile::DeleteA(LPCSTR lpszPath)
+{
+	return DeleteFileA(lpszPath);
+}
+
 bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
 {
 	//close prev file
@@ -109,9 +119,8 @@ bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
 				dwShareMode, 
 				NULL,
 				dwCreationDisposition,
-				FILE_ATTRIBUTE_NORMAL, 
+				FILE_ATTRIBUTE_NORMAL,
 				NULL);
-
 	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
 	return m_opened;
 }
@@ -146,10 +155,10 @@ bool CFile::OpenA(unsigned long mode, LPCSTR lpszPath)
 
 	m_hFile = CreateFileA(lpszPath,
 				dwDesiredAccess,
-				dwShareMode, 
+				dwShareMode,
 				NULL,
 				dwCreationDisposition,
-				FILE_ATTRIBUTE_NORMAL, 
+				FILE_ATTRIBUTE_NORMAL,
 				NULL);
 
 	m_opened = (m_hFile != INVALID_HANDLE_VALUE);
