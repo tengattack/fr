@@ -52,16 +52,6 @@ namespace base{
 		static bool DeleteW(LPCWSTR lpszPath);
 		static bool DeleteA(LPCSTR lpszPath);
 
-		static inline bool Delete(LPCTSTR lpszPath) {
-#ifdef _UNICODE
-			return DeleteW(lpszPath);
-#else
-			return DeleteA(lpszPath);
-#endif
-		}
-		static bool DeleteW(LPCWSTR lpszPath);
-		static bool DeleteA(LPCSTR lpszPath);
-
 	protected:
 		bool m_opened;
 		HANDLE m_hFile;

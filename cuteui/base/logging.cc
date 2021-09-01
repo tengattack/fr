@@ -99,8 +99,8 @@ const char* log_severity_name(int severity) {
 // 自行添加的
 LoggingSettings::Callback g_callback = nullptr;
 void* g_user_data = nullptr;
-
-int g_min_log_level = 0;
+// 设置最小的 log 等级为 -1, 因为 LOG_VERBOSE 为 -1
+int g_min_log_level = -1;
 
 LoggingDestination g_logging_destination = LOG_DEFAULT;
 
@@ -868,7 +868,7 @@ void LogMessage::Init(const char* file, int line) {
   if (severity_ >= 0)
     stream_ << log_severity_name(severity_);
   else
-    stream_ << "VERBOSE" << -severity_;
+    stream_ << "VERBOSE";
 
   stream_ << ":" << filename << "(" << line << ")] ";
 
