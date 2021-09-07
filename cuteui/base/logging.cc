@@ -868,7 +868,7 @@ void LogMessage::Init(const char* file, int line) {
   if (severity_ >= 0)
     stream_ << log_severity_name(severity_);
   else
-    stream_ << "VERBOSE";
+    stream_ << "VERBOSE" << -severity_;
 
   stream_ << ":" << filename << "(" << line << ")] ";
 
