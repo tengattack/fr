@@ -59,7 +59,7 @@ extern "C" {
 		memset(buff , 0 , len+1 );
 		pstr= buff;
 
-		while( pin != '\0' && (pin < pin_end) )
+		while( *pin != '\0' && (pin < pin_end) )
 		{
 			if( *(pin) == '%' )
 			{
