@@ -339,7 +339,12 @@ bool InitializeLogFileHandle() {
       return false;
 #endif
   }
-
+  std::cout << "BOM" << std::endl;
+  //std::ofstream ofs(g_log_file_name->c_str());  //文件是utf8编码
+  //char c1 = 0xEF;  // 仿utf-8 BOM头  三字节
+  //char c2 = 0xBB;
+  //char c3 = 0xBF;
+  //ofs << c1 << c2 << c3;
   return true;
 }
 
@@ -756,6 +761,7 @@ LogMessage::~LogMessage() {
     LoggingLock logging_lock;
 #endif
     if (InitializeLogFileHandle()) {
+    std::cout<<"InitializeLogFileHandle"<<std::endl;
 #if defined(OS_WIN)
       DWORD num_written;
       WriteFile(g_log_file,

@@ -11,6 +11,7 @@
 #include <cstring>
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <type_traits>
 #include <utility>
 #include <memory>
