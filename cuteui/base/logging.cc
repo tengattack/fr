@@ -339,12 +339,6 @@ bool InitializeLogFileHandle() {
       return false;
 #endif
   }
-  std::cout << "BOM" << std::endl;
-  //std::ofstream ofs(g_log_file_name->c_str());  //文件是utf8编码
-  //char c1 = 0xEF;  // 仿utf-8 BOM头  三字节
-  //char c2 = 0xBB;
-  //char c3 = 0xBF;
-  //ofs << c1 << c2 << c3;
   return true;
 }
 
@@ -433,6 +427,10 @@ bool BaseInitLoggingImpl(const LoggingSettings& settings) {
   }
   if (settings.delete_old == DELETE_OLD_LOG_FILE)
     DeleteFilePath(*g_log_file_name);
+
+#if defined(OS_WIN)
+  Utf8ToUtf8Bom(g_log_file_name->c_str());
+#endif
 
   return InitializeLogFileHandle();
 }
@@ -761,7 +759,6 @@ LogMessage::~LogMessage() {
     LoggingLock logging_lock;
 #endif
     if (InitializeLogFileHandle()) {
-    std::cout<<"InitializeLogFileHandle"<<std::endl;
 #if defined(OS_WIN)
       DWORD num_written;
       WriteFile(g_log_file,
@@ -1014,6 +1011,39 @@ std::wstring GetLogFileFullPath() {
 BASE_EXPORT void LogErrorNotReached(const char* file, int line) {
   LogMessage(file, line, LOG_ERROR).stream()
       << "NOTREACHED() hit.";
+}
+
+BASE_EXPORT void Utf8ToUtf8Bom(const wchar_t* filename) {
+  std::ifstream infile;
+  std::string strline;
+  std::string strresult;
+  // BOM HEADER
+  char c1 = (char)0xEF;
+  char c2 = (char)0xBB;
+  char c3 = (char)0xBF;
+  infile.open(filename);
+  if (infile) {
+    getline(infile, strline);
+    strresult += strline + "\n";
+    if (strresult[0] == c1 && strresult[1] == c2 && strresult[2] == c3) {
+      return;
+    }
+    while (!infile.eof()) {
+      getline(infile, strline);
+      strresult += strline + "\n";
+    }
+    // delete "\n"
+    strresult.pop_back();
+  }
+
+  infile.close();
+  // delete old debug.log
+  ::_wremove(filename);
+
+  std::ofstream outfile(filename);
+  outfile << c1 << c2 << c3;
+  outfile << strresult;
+  outfile.close();
 }
 
 }  // namespace logging
