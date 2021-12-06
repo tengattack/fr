@@ -298,6 +298,8 @@ bool InitializeLogFileHandle() {
 
   if ((g_logging_destination & LOG_TO_FILE) != 0) {
 #if defined(OS_WIN)
+    bool is_file_exist = false;
+    is_file_exist = IsFileExist(g_log_file_name->c_str());
     // The FILE_APPEND_DATA access mask ensures that the file is atomically
     // appended to across accesses from multiple threads.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/aa364399(v=vs.85).aspx
@@ -333,13 +335,21 @@ bool InitializeLogFileHandle() {
         return false;
       }
     }
+    if (!is_file_exist) {
+      if (IsFileExist(g_log_file_name->c_str())) {
+        is_file_exist = true;
+        DWORD num_written;
+        const char bom_header[] = {0xEF, 0xBB, 0xBF};
+        WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
+                  nullptr);
+      }
+    }
 #elif defined(OS_POSIX)
     g_log_file = fopen(g_log_file_name->c_str(), "a");
     if (g_log_file == nullptr)
       return false;
 #endif
   }
-
   return true;
 }
 
@@ -428,10 +438,6 @@ bool BaseInitLoggingImpl(const LoggingSettings& settings) {
   }
   if (settings.delete_old == DELETE_OLD_LOG_FILE)
     DeleteFilePath(*g_log_file_name);
-
-#if defined(OS_WIN)
-  Utf8ToUtf8Bom(g_log_file_name->c_str());
-#endif
 
   return InitializeLogFileHandle();
 }
@@ -1014,37 +1020,29 @@ BASE_EXPORT void LogErrorNotReached(const char* file, int line) {
       << "NOTREACHED() hit.";
 }
 
-BASE_EXPORT void Utf8ToUtf8Bom(const wchar_t* filename) {
-  std::ifstream infile;
-  std::string strline;
-  std::string strresult;
-  // BOM HEADER
-  char c1 = (char)0xEF;
-  char c2 = (char)0xBB;
-  char c3 = (char)0xBF;
-  infile.open(filename);
-  if (infile) {
-    getline(infile, strline);
-    strresult += strline + "\n";
-    if (strresult[0] == c1 && strresult[1] == c2 && strresult[2] == c3) {
-      return;
+BASE_EXPORT bool IsFileExist(const wchar_t* filename) {
+  DWORD dwAttr = GetFileAttributes(filename);
+  if (dwAttr == 0xffffffff) {
+    DWORD dwError = GetLastError();
+    if (dwError == ERROR_FILE_NOT_FOUND) {
+      // return false if the file does not exist
+      return false;
+    } else if (dwError == ERROR_PATH_NOT_FOUND) {
+      // path not found
+    } else if (dwError == ERROR_ACCESS_DENIED) {
+      // file or directory exists, but access is denied
+    } else {
+      // some other error has occured
     }
-    while (!infile.eof()) {
-      getline(infile, strline);
-      strresult += strline + "\n";
+  } else {
+    if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
+      // this is a directory
+    } else { 
+      // this is an ordinary file
+      // return true if the file exists
+      return true;
     }
-    // delete "\n"
-    strresult.pop_back();
   }
-
-  infile.close();
-  // delete old debug.log
-  ::_wremove(filename);
-
-  std::ofstream outfile(filename);
-  outfile << c1 << c2 << c3;
-  outfile << strresult;
-  outfile.close();
 }
 
 }  // namespace logging

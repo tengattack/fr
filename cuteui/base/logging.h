@@ -10,7 +10,6 @@
 #include <cassert>
 #include <cstring>
 #include <sstream>
-#include <fstream>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -955,7 +954,7 @@ void LogErrorNotReached(const char* file, int line);
 #define NOTREACHED() DCHECK(false)
 #endif
 
-void Utf8ToUtf8bom(const wchar_t* filename);
+bool IsFileExist(const wchar_t* filename);
 
 // Redefine the standard assert to use our nice log files
 #undef assert
