@@ -350,6 +350,7 @@ bool InitializeLogFileHandle() {
       return false;
 #endif
   }
+
   return true;
 }
 
