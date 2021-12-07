@@ -954,8 +954,6 @@ void LogErrorNotReached(const char* file, int line);
 #define NOTREACHED() DCHECK(false)
 #endif
 
-bool IsFileExist(const wchar_t* filename);
-
 // Redefine the standard assert to use our nice log files
 #undef assert
 #define assert(x) DLOG_ASSERT(x)

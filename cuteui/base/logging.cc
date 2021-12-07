@@ -283,6 +283,14 @@ pthread_mutex_t LoggingLock::log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #endif  // OS_WIN
 
+bool FileExists(const wchar_t* filename) {
+  DWORD dwattr = GetFileAttributes(filename);
+  if (dwattr == 0xffffffff) {
+    return false;
+  }
+  return true;
+}
+
 // Called by logging functions to ensure that |g_log_file| is initialized
 // and can be used for writing. Returns false if the file could not be
 // initialized. |g_log_file| will be nullptr in this case.
@@ -298,8 +306,8 @@ bool InitializeLogFileHandle() {
 
   if ((g_logging_destination & LOG_TO_FILE) != 0) {
 #if defined(OS_WIN)
-    bool is_file_exist = false;
-    is_file_exist = IsFileExist(g_log_file_name->c_str());
+    bool file_exist = false;
+    file_exist = FileExists(g_log_file_name->c_str());
     // The FILE_APPEND_DATA access mask ensures that the file is atomically
     // appended to across accesses from multiple threads.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/aa364399(v=vs.85).aspx
@@ -335,14 +343,13 @@ bool InitializeLogFileHandle() {
         return false;
       }
     }
-    if (!is_file_exist) {
-      if (IsFileExist(g_log_file_name->c_str())) {
-        is_file_exist = true;
-        DWORD num_written;
-        const char bom_header[] = {0xEF, 0xBB, 0xBF};
-        WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
-                  nullptr);
-      }
+    if (!file_exist) {
+      file_exist = true;
+      DWORD num_written;
+      const char bom_header[] = {0xEF, 0xBB, 0xBF};
+      // write BOM header at the beginning of the new log file
+      WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
+                nullptr);
     }
 #elif defined(OS_POSIX)
     g_log_file = fopen(g_log_file_name->c_str(), "a");
@@ -1019,31 +1026,6 @@ std::wstring GetLogFileFullPath() {
 BASE_EXPORT void LogErrorNotReached(const char* file, int line) {
   LogMessage(file, line, LOG_ERROR).stream()
       << "NOTREACHED() hit.";
-}
-
-BASE_EXPORT bool IsFileExist(const wchar_t* filename) {
-  DWORD dwAttr = GetFileAttributes(filename);
-  if (dwAttr == 0xffffffff) {
-    DWORD dwError = GetLastError();
-    if (dwError == ERROR_FILE_NOT_FOUND) {
-      // return false if the file does not exist
-      return false;
-    } else if (dwError == ERROR_PATH_NOT_FOUND) {
-      // path not found
-    } else if (dwError == ERROR_ACCESS_DENIED) {
-      // file or directory exists, but access is denied
-    } else {
-      // some other error has occured
-    }
-  } else {
-    if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
-      // this is a directory
-    } else { 
-      // this is an ordinary file
-      // return true if the file exists
-      return true;
-    }
-  }
 }
 
 }  // namespace logging
