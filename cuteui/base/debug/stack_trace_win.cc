@@ -130,7 +130,6 @@ class SymbolContext {
   // LOG(FATAL) itself. Also, it should not be calling complex code that is
   // extensible like PathService since that can in turn fire CHECKs.
   void OutputTraceToStream(const void* const* trace,
-                           const HMODULE* trace_module,
                            size_t count,
                            std::ostream* os) {
     AutoLock lock(lock_);
@@ -166,11 +165,11 @@ class SymbolContext {
       // Output the backtrace line.
       (*os) << "\t";
       if (has_symbol) {
-        (*os) << symbol->Name << " [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "+"
+        (*os) << symbol->Name << " [0x" << trace[i] << "+"
               << sym_displacement << "]";
       } else {
         // If there is no symbol information, add a spacer.
-        (*os) << "(No symbol) [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "]";
+        (*os) << "(No symbol) [0x" << trace[i] << "]";
       }
       if (has_line) {
         (*os) << " (" << line.FileName << ":" << line.LineNumber << ")";
@@ -191,19 +190,6 @@ class SymbolContext {
 };
 
 }  // namespace
-
-/*
- * GetModuleFromAddress
- *      Finds module handle from some address inside it
- */
-static HMODULE GetModuleFromAddress(LPVOID address)
-{
-    HMODULE module;
-    if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-        (char*)address, &module))
-        return module;
-    return nullptr;
-}
 
 bool EnableInProcessStackDumping() {
   // Add stack dumping support on exception on windows. Similar to OS_POSIX
@@ -282,14 +268,11 @@ void StackTrace::InitTrace(const CONTEXT* context_record) {
                      &SymGetModuleBase64,
                      NULL) &&
          count_ < arraysize(trace_)) {
-    trace_module_[count_] = GetModuleFromAddress((void*)stack_frame.AddrPC.Offset);
     trace_[count_++] = reinterpret_cast<void*>(stack_frame.AddrPC.Offset);
   }
 
-  for (size_t i = count_; i < arraysize(trace_); ++i) {
-    trace_module_[i] = NULL;
+  for (size_t i = count_; i < arraysize(trace_); ++i)
     trace_[i] = NULL;
-  }
 }
 
 void StackTrace::Print() const {
@@ -302,11 +285,11 @@ void StackTrace::OutputToStream(std::ostream* os) const {
     (*os) << "Error initializing symbols (" << g_init_error
           << ").  Dumping unresolved backtrace:\n";
     for (size_t i = 0; (i < count_) && os->good(); ++i) {
-      (*os) << "\t" << trace_[i] << "-0x" << (void*)trace_module_[i] << "\n";
+      (*os) << "\t" << trace_[i] << "\n";
     }
   } else {
     (*os) << "Backtrace:\n";
-    context->OutputTraceToStream(trace_, trace_module_, count_, os);
+    context->OutputTraceToStream(trace_, count_, os);
   }
 }
 

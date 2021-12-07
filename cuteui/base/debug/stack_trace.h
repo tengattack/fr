@@ -103,9 +103,6 @@ class BASE_EXPORT StackTrace {
   static const int kMaxTraces = 62;
 
   void* trace_[kMaxTraces];
-#if defined(OS_WIN)
-  HMODULE trace_module_[kMaxTraces];
-#endif
 
   // The number of valid frames in |trace_|.
   size_t count_;

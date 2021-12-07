@@ -59,7 +59,7 @@ extern "C" {
 		memset(buff , 0 , len+1 );
 		pstr= buff;
 
-		while( *pin != '\0' && (pin < pin_end) )
+		while( pin != '\0' && (pin < pin_end) )
 		{
 			if( *(pin) == '%' )
 			{
@@ -112,7 +112,7 @@ extern "C" {
 
 	int lo_UrlEncodeA(char** pout, const char* pin ,  int len)
 	{
-		//将保留字符转化为16进制格式.
+		// 灏嗕繚鐣欏瓧绗﹁浆鍖栦负16杩涘埗鏍煎紡.
 		// according to RFC 2396
 		char sca[4] = "%";
 		unsigned char c;
