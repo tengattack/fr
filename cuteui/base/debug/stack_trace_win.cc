@@ -160,17 +160,19 @@ class SymbolContext {
       DWORD line_displacement = 0;
       IMAGEHLP_LINE64 line = {};
       line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-      BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
+      DWORD_PTR crash_address =
+          frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
+      BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), crash_address,
                                            &line_displacement, &line);
 
       // Output the backtrace line.
       (*os) << "\t";
       if (has_symbol) {
-        (*os) << symbol->Name << " [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "+"
+        (*os) << symbol->Name << " [0x" << crash_address << "+"
               << sym_displacement << "]";
       } else {
         // If there is no symbol information, add a spacer.
-        (*os) << "(No symbol) [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "]";
+        (*os) << "(No symbol) [0x" << crash_address << "]";
       }
       if (has_line) {
         (*os) << " (" << line.FileName << ":" << line.LineNumber << ")";
@@ -203,6 +205,30 @@ static HMODULE GetModuleFromAddress(LPVOID address)
         (char*)address, &module))
         return module;
     return nullptr;
+}
+
+/*
+ * FindModuleName
+ *      Finds module filename or "unknown"
+ */
+static const char* FindModuleName(HMODULE module, char* output, DWORD maxsize) {
+  if (GetModuleFileNameA(module, output, maxsize)) {
+    // Finds the filename part in the output string
+    char* filename = strrchr(output, '\\');
+    if (!filename) filename = strrchr(output, '/');
+
+    // If filename found (i.e. output isn't already a filename but full path),
+    // make output be filename
+    if (filename) {
+      size_t size = strlen(++filename);
+      memmove(output, filename, size);
+      output[size] = 0;
+    }
+  } else {
+    // Unknown module
+    strcpy(output, "unknown");
+  }
+  return output;
 }
 
 bool EnableInProcessStackDumping() {
