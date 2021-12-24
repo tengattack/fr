@@ -207,30 +207,6 @@ static HMODULE GetModuleFromAddress(LPVOID address)
     return nullptr;
 }
 
-/*
- * FindModuleName
- *      Finds module filename or "unknown"
- */
-static const char* FindModuleName(HMODULE module, char* output, DWORD maxsize) {
-  if (GetModuleFileNameA(module, output, maxsize)) {
-    // Finds the filename part in the output string
-    char* filename = strrchr(output, '\\');
-    if (!filename) filename = strrchr(output, '/');
-
-    // If filename found (i.e. output isn't already a filename but full path),
-    // make output be filename
-    if (filename) {
-      size_t size = strlen(++filename);
-      memmove(output, filename, size);
-      output[size] = 0;
-    }
-  } else {
-    // Unknown module
-    strcpy(output, "unknown");
-  }
-  return output;
-}
-
 bool EnableInProcessStackDumping() {
   // Add stack dumping support on exception on windows. Similar to OS_POSIX
   // signal() handling in process_util_posix.cc.
