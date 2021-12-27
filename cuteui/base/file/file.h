@@ -57,6 +57,8 @@ namespace base{
 		HANDLE m_hFile;
 		unsigned long m_mode;
 
+		friend class MiniDump;
+
 		//std::wstring m_path;
 	};
 };
