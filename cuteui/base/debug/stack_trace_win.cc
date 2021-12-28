@@ -186,7 +186,7 @@ class SymbolContext {
       line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
       DWORD_PTR pc =
           frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
-      BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), pc,
+      BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
                                            &line_displacement, &line);
       const int kMaxSize = 256;
       char module_name[kMaxSize] = {};
