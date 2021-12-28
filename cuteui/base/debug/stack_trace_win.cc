@@ -101,7 +101,10 @@ bool InitializeSymbols() {
  *      Finds module filename or "unknown"
  */
 static const char* FindModuleName(HMODULE module, char* output, DWORD maxsize) {
-  if (GetModuleFileNameA(module, output, maxsize)) {
+  if (!GetModuleFileNameA(module, output, maxsize)) {
+     // Unknown module
+    strcpy(output, "unknown");
+  } else {
     // Finds the filename part in the output string
     char* filename = strrchr(output, '\\');
     if (!filename) filename = strrchr(output, '/');
@@ -113,9 +116,6 @@ static const char* FindModuleName(HMODULE module, char* output, DWORD maxsize) {
       memmove(output, filename, size);
       output[size] = 0;
     }
-  } else {
-    // Unknown module
-    strcpy(output, "unknown");
   }
   return output;
 }
@@ -187,9 +187,8 @@ class SymbolContext {
       BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
                                            &line_displacement, &line);
 
-      const int kMaxSize = 256;
-      char module_name[kMaxSize] = {};
-      FindModuleName(trace_module[i], module_name, kMaxSize);
+      char module_name[MAX_PATH] = {};
+      FindModuleName(trace_module[i], module_name, sizeof(module_name));
       DWORD_PTR pc = frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
 
       // Output the backtrace line.
