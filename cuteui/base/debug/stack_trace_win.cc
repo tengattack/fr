@@ -184,13 +184,13 @@ class SymbolContext {
       DWORD line_displacement = 0;
       IMAGEHLP_LINE64 line = {};
       line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-      DWORD_PTR pc =
-          frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
       BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
                                            &line_displacement, &line);
+
       const int kMaxSize = 256;
       char module_name[kMaxSize] = {};
       FindModuleName(trace_module[i], module_name, kMaxSize);
+      DWORD_PTR pc = frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
 
       // Output the backtrace line.
       (*os) << "\t";
