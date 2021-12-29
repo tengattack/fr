@@ -187,7 +187,7 @@ class SymbolContext {
       BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
                                            &line_displacement, &line);
 
-      char module_name[MAX_PATH] = {};
+      char module_name[MAX_PATH];
       FindModuleName(trace_module[i], module_name, sizeof(module_name));
       DWORD_PTR module_displacement =
           frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
