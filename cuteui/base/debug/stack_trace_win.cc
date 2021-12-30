@@ -195,13 +195,12 @@ class SymbolContext {
       // Output the backtrace line.
       (*os) << "\t";
       if (has_symbol) {
-        (*os) << symbol->Name << "[" << module_name << " 0x"
-              << module_displacement << "+"
-              << sym_displacement << "]";
+        (*os) << symbol->Name << " [" << module_name << " 0x"
+              << module_displacement << "+" << sym_displacement << "]";
       } else {
         // If there is no symbol information, add a spacer.
-        (*os) << "(No symbol)"
-              << "[" << module_name << " 0x" << module_displacement << "]";
+        (*os) << "(No symbol) [" << module_name << " 0x" << module_displacement
+              << "]";
       }
       if (has_line) {
         (*os) << " (" << line.FileName << ":" << line.LineNumber << ")";
