@@ -96,6 +96,30 @@ bool InitializeSymbols() {
   return true;
 }
 
+/*
+ * FindModuleName
+ *      Finds module filename or "unknown"
+ */
+static const char* FindModuleName(HMODULE module, char* output, DWORD maxsize) {
+  if (!GetModuleFileNameA(module, output, maxsize)) {
+     // Unknown module
+    strcpy(output, "unknown");
+  } else {
+    // Finds the filename part in the output string
+    char* filename = strrchr(output, '\\');
+    if (!filename) filename = strrchr(output, '/');
+
+    // If filename found (i.e. output isn't already a filename but full path),
+    // make output be filename
+    if (filename) {
+      size_t size = strlen(++filename);
+      memmove(output, filename, size);
+      output[size] = 0;
+    }
+  }
+  return output;
+}
+
 // SymbolContext is a threadsafe singleton that wraps the DbgHelp Sym* family
 // of functions.  The Sym* family of functions may only be invoked by one
 // thread at a time.  SymbolContext code may access a symbol server over the
@@ -163,14 +187,20 @@ class SymbolContext {
       BOOL has_line = SymGetLineFromAddr64(GetCurrentProcess(), frame,
                                            &line_displacement, &line);
 
+      char module_name[MAX_PATH];
+      FindModuleName(trace_module[i], module_name, sizeof(module_name));
+      DWORD_PTR module_displacement =
+          frame - reinterpret_cast<DWORD_PTR>(trace_module[i]);
+
       // Output the backtrace line.
       (*os) << "\t";
       if (has_symbol) {
-        (*os) << symbol->Name << " [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "+"
-              << sym_displacement << "]";
+        (*os) << symbol->Name << " [" << module_name << " 0x"
+              << (void*)module_displacement << "+" << sym_displacement << "]";
       } else {
         // If there is no symbol information, add a spacer.
-        (*os) << "(No symbol) [0x" << trace[i] << "-0x" << (void*)trace_module[i] << "]";
+        (*os) << "(No symbol) [" << module_name << " 0x"
+              << (void*)module_displacement << "]";
       }
       if (has_line) {
         (*os) << " (" << line.FileName << ":" << line.LineNumber << ")";
