@@ -6,6 +6,7 @@
 
 #include <limits.h>
 #include <stdint.h>
+#include <shlwapi.h>
 
 #include "base/basictypes.h"
 #include "build/build_config.h"
@@ -298,6 +299,7 @@ bool InitializeLogFileHandle() {
 
   if ((g_logging_destination & LOG_TO_FILE) != 0) {
 #if defined(OS_WIN)
+    bool file_exist = PathFileExists(g_log_file_name->c_str());
     // The FILE_APPEND_DATA access mask ensures that the file is atomically
     // appended to across accesses from multiple threads.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/aa364399(v=vs.85).aspx
@@ -332,6 +334,13 @@ bool InitializeLogFileHandle() {
         g_log_file = nullptr;
         return false;
       }
+    }
+    if (!file_exist) {
+      DWORD num_written;
+      const char bom_header[] = {0xEF, 0xBB, 0xBF};
+      // write BOM header at the beginning of the new log file
+      WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
+                nullptr);
     }
 #elif defined(OS_POSIX)
     g_log_file = fopen(g_log_file_name->c_str(), "a");
