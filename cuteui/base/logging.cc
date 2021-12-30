@@ -283,13 +283,15 @@ pthread_mutex_t LoggingLock::log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #endif  // OS_WIN
 
+#if defined(OS_WIN)
 bool FileExists(const wchar_t* filename) {
   DWORD dwattr = GetFileAttributes(filename);
-  if (dwattr == 0xffffffff) {
+  if (dwattr == INVALID_FILE_ATTRIBUTES) {
     return false;
   }
   return true;
 }
+#endif
 
 // Called by logging functions to ensure that |g_log_file| is initialized
 // and can be used for writing. Returns false if the file could not be
@@ -306,8 +308,7 @@ bool InitializeLogFileHandle() {
 
   if ((g_logging_destination & LOG_TO_FILE) != 0) {
 #if defined(OS_WIN)
-    bool file_exist = false;
-    file_exist = FileExists(g_log_file_name->c_str());
+    bool file_exist = FileExists(g_log_file_name->c_str());
     // The FILE_APPEND_DATA access mask ensures that the file is atomically
     // appended to across accesses from multiple threads.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/aa364399(v=vs.85).aspx

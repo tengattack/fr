@@ -112,7 +112,7 @@ extern "C" {
 
 	int lo_UrlEncodeA(char** pout, const char* pin ,  int len)
 	{
-		// 将保留字符转化为16进制格式.
+		// 将保留字符转化为 16 进制格式
 		// according to RFC 2396
 		char sca[4] = "%";
 		unsigned char c;
