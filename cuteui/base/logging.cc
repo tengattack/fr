@@ -588,9 +588,11 @@ LogMessage::~LogMessage() {
     !defined(OS_AIX)
   if (severity_ == LOG_FATAL && !base::debug::BeingDebugged()) {
     // Include a stack trace on a fatal, unless a debugger is attached.
-    base::debug::StackTrace trace;
-    stream_ << std::endl;  // Newline to separate from log message.
-    trace.OutputToStream(&stream_);
+    if (!(stream_.str().find("Backtrace:") != std::string::npos)) {
+      base::debug::StackTrace trace;
+      stream_ << std::endl;  // Newline to separate from log message.
+      trace.OutputToStream(&stream_);
+    }
   }
 #endif
   stream_ << std::endl;
