@@ -342,6 +342,24 @@ bool InitializeLogFileHandle() {
       WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
                 nullptr);
     }
+
+    DWORD file_size = GetFileSize(g_log_file, nullptr);
+    if (file_size > 8 * 1024 * 1024) {
+      if (!g_log_file_name->empty()) {
+        // Release g_log_file to ensure MoveFileEx call succeeds
+        CloseHandle(g_log_file);
+        g_log_file = nullptr;
+        std::wstring g_log_file_name_1 = g_log_file_name->c_str();
+        g_log_file_name_1.append(L".1");
+        // If a file named lpNewFileName exists, the function replaces its
+        // contents with the contents of the lpExistingFileName file
+        if (!MoveFileEx(g_log_file_name->c_str(), g_log_file_name_1.c_str(),
+                        MOVEFILE_REPLACE_EXISTING)) {
+          return false;
+        }
+        InitializeLogFileHandle();
+      }
+    }
 #elif defined(OS_POSIX)
     g_log_file = fopen(g_log_file_name->c_str(), "a");
     if (g_log_file == nullptr)
