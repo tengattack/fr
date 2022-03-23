@@ -344,7 +344,7 @@ bool InitializeLogFileHandle() {
     }
 
     DWORD file_size = GetFileSize(g_log_file, nullptr);
-    if (file_size > 8 * 1024 * 1024) {
+    if (file_size > 20 * 1024 * 1024) {
       if (!g_log_file_name->empty()) {
         // Release g_log_file to ensure MoveFileEx call succeeds
         CloseHandle(g_log_file);
