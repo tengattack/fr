@@ -357,7 +357,7 @@ bool InitializeLogFileHandle() {
                         MOVEFILE_REPLACE_EXISTING)) {
           return false;
         }
-        InitializeLogFileHandle();
+        return InitializeLogFileHandle();
       }
     }
 #elif defined(OS_POSIX)
