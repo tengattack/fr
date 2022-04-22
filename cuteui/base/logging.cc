@@ -343,7 +343,7 @@ bool InitializeLogFileHandle() {
         // Release g_log_file to ensure MoveFileEx call succeeds
         CloseHandle(g_log_file);
         g_log_file = nullptr;
-        std::wstring g_log_file_name_1 = g_log_file_name->c_str();;
+        std::wstring g_log_file_name_1 = g_log_file_name->c_str();
         g_log_file_name_1.append(L".1");
         // If a file named lpNewFileName exists, the function replaces its
         // contents with the contents of the lpExistingFileName file
