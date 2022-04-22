@@ -335,21 +335,15 @@ bool InitializeLogFileHandle() {
         return false;
       }
     }
-    if (!file_exist) {
-      DWORD num_written;
-      const char bom_header[] = {0xEF, 0xBB, 0xBF};
-      // write BOM header at the beginning of the new log file
-      WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
-                nullptr);
-    }
 
     DWORD file_size = GetFileSize(g_log_file, nullptr);
+    // 如果 debug.log 文件大小超过 20M，则将 debug.log 的文件内容移动到 debug.log.1 中
     if (file_size > 20 * 1024 * 1024) {
       if (!g_log_file_name->empty()) {
         // Release g_log_file to ensure MoveFileEx call succeeds
         CloseHandle(g_log_file);
         g_log_file = nullptr;
-        std::wstring g_log_file_name_1 = g_log_file_name->c_str();
+        std::wstring g_log_file_name_1 = g_log_file_name->c_str();;
         g_log_file_name_1.append(L".1");
         // If a file named lpNewFileName exists, the function replaces its
         // contents with the contents of the lpExistingFileName file
@@ -359,6 +353,14 @@ bool InitializeLogFileHandle() {
         }
         return InitializeLogFileHandle();
       }
+    }
+
+     if (!file_exist) {
+      DWORD num_written;
+      const char bom_header[] = {0xEF, 0xBB, 0xBF};
+      // write BOM header at the beginning of the new log file
+      WriteFile(g_log_file, bom_header, sizeof(bom_header), &num_written,
+                nullptr);
     }
 #elif defined(OS_POSIX)
     g_log_file = fopen(g_log_file_name->c_str(), "a");
