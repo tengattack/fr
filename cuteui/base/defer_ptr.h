@@ -3,11 +3,10 @@
 #define BASE_DEFER_PTR_H_
 #pragma once
 
-#include <functional>
-
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <functional>
 #include <vector>
 
 #include "base/compiler_specific.h"
