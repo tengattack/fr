@@ -3,6 +3,8 @@
 #define BASE_DEFER_PTR_H_
 #pragma once
 
+#include <functional>
+
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
