@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <functional>
 #include <vector>
 
 #include "base/compiler_specific.h"
