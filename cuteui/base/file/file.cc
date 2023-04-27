@@ -86,6 +86,18 @@ bool CFile::DeleteA(LPCSTR lpszPath)
 	return DeleteFileA(lpszPath);
 }
 
+bool CFile::ExistsW(LPCWSTR lpszPath) {
+	DWORD attrib = GetFileAttributesW(lpszPath);
+	return (attrib != INVALID_FILE_ATTRIBUTES &&
+			(!(attrib & FILE_ATTRIBUTE_DIRECTORY)));
+}
+
+bool CFile::ExistsA(LPCSTR lpszPath) {
+	DWORD attrib = GetFileAttributesA(lpszPath);
+	return (attrib != INVALID_FILE_ATTRIBUTES &&
+			(!(attrib & FILE_ATTRIBUTE_DIRECTORY)));
+}
+
 bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
 {
 	//close prev file
