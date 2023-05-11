@@ -89,13 +89,13 @@ bool CFile::DeleteA(LPCSTR lpszPath)
 bool CFile::ExistsW(LPCWSTR lpszPath) {
 	DWORD attrib = GetFileAttributesW(lpszPath);
 	return !(attrib == INVALID_FILE_ATTRIBUTES &&
-			GetLastError() == ERROR_FILE_NOT_FOUND);
+		GetLastError() == ERROR_FILE_NOT_FOUND);
 }
 
 bool CFile::ExistsA(LPCSTR lpszPath) {
 	DWORD attrib = GetFileAttributesA(lpszPath);
 	return !(attrib == INVALID_FILE_ATTRIBUTES &&
-			GetLastError() == ERROR_FILE_NOT_FOUND);
+		GetLastError() == ERROR_FILE_NOT_FOUND);
 }
 
 bool CFile::OpenW(unsigned long mode, LPCWSTR lpszPath)
