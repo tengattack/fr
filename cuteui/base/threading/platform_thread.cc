@@ -1,3 +1,4 @@
+#include "base/stdafx.h"
 
 #include "base/threading/platform_thread.h"
 

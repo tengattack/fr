@@ -9,7 +9,7 @@
 
 #include <limits>
 
-//#include "base/logging.h"
+#include "base/logging.h"
 #include "base/third_party/dmg_fp/dmg_fp.h"
 #include "base/string/utf_string_conversions.h"
 

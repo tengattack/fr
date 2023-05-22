@@ -4,6 +4,8 @@
 
 #include "base/logging.h"
 
+#include "base/stdafx.h"
+
 #include <limits.h>
 #include <stdint.h>
 #include <shlwapi.h>

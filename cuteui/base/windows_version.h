@@ -6,6 +6,8 @@
 #define BASE_WIN_WINDOWS_VERSION_H_
 #pragma once
 
+#include "stdafx.h"
+
 namespace base {
 namespace win {
 

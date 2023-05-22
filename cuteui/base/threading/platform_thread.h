@@ -2,6 +2,8 @@
 #ifndef BASE_THREADING_PLATFORM_THREAD_H_
 #define BASE_THREADING_PLATFORM_THREAD_H_
 
+#include "base/basictypes.h"
+
 #include "base/base_export.h"
 
 namespace base {
