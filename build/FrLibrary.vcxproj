@@ -113,7 +113,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)temp\$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>$(SolutionName)_d</TargetName>
+    <TargetName>$(SolutionName)d</TargetName>
     <IncludePath>$(SolutionDir)..\;$(SolutionDir)..\cuteui\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
