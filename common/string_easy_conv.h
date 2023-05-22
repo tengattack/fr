@@ -2,6 +2,8 @@
 #ifndef _TA_STRING_FMT_H_
 #define _TA_STRING_FMT_H_ 1
 
+#include "base/stdafx.h"
+
 #include <common/strconv.h>
 
 #ifdef NO_UTF8

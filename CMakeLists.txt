@@ -51,11 +51,17 @@ set(SOURCES
      cuteui/base/third_party/dmg_fp/g_fmt.cc
      cuteui/base/third_party/icu/icu_utf.cc
      cuteui/base/third_party/modp_b64/modp_b64.cc
+     common/bbiconv.cc
+     common/Buffer.cpp   
+     common/properties.cpp
+     common/strconv.cpp
+     common/string_easy_conv.cc
+     common/Urlcode.cpp
+     common/wiseint.cc
 )
 
 # Add a library with the above sources 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
-add_library(sub::base_util_lib ALIAS ${PROJECT_NAME})
 
 # 添加头文件搜索路径
 include_directories(common cuteui engine)

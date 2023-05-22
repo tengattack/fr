@@ -139,6 +139,27 @@
     <ClCompile Include="D:\sdks\fr\cuteui\base\third_party\modp_b64\modp_b64.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\bbiconv.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\properties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\strconv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\string_easy_conv.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\Urlcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\sdks\fr\common\wiseint.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\sdks\fr\CMakeLists.txt" />
