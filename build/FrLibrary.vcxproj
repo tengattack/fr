@@ -369,14 +369,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\sdks\fr\cuteui\base\third_party\icu\icu_utf.cc" />
     <ClCompile Include="D:\sdks\fr\cuteui\base\third_party\modp_b64\modp_b64.cc" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:\sdks\fr\build\ZERO_CHECK.vcxproj">
-      <Project>{8BCBE7A9-EB60-3FC3-84B9-DA3BD355B887}</Project>
-      <Name>ZERO_CHECK</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
