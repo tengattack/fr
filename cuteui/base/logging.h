@@ -701,10 +701,14 @@ MakeCheckOpValueString(std::ostream* os, const T& v) {
 }
 
 // We need an explicit overload for std::nullptr_t.
-BASE_EXPORT void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p);
+inline void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
+  (*os) << "nullptr";
+}
 
 template <typename T>
-void MakeCheckOpValueString(std::ostream* os, T p);
+inline void MakeCheckOpValueString(std::ostream* os, T p) {
+  (*os) << p;
+}
 
 // Build the error message string.  This is separate from the "Impl"
 // function template because it is not performance critical and so can

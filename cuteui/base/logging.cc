@@ -537,14 +537,16 @@ template std::string* MakeCheckOpString<unsigned int, unsigned long>(
 template std::string* MakeCheckOpString<std::string, std::string>(
     const std::string&, const std::string&, const char* name);
 
-void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
+#if 0
+BASE_EXPORT void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
   (*os) << "nullptr";
 }
 
 template <typename T>
-void MakeCheckOpValueString(std::ostream* os, T p) {
+BASE_EXPORT void MakeCheckOpValueString(std::ostream* os, T p) {
   (*os) << p;
 }
+#endif
 
 #if !defined(NDEBUG)
 // Displays a message box to the user with the error message in it.
