@@ -60,8 +60,8 @@ set(SOURCES
      common/wiseint.cc
 )
 
-# Add a library with the above sources 
+# 编译静态库
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 # 添加头文件搜索路径
-include_directories(common cuteui engine)
+include_directories(common cuteui)

@@ -1,8 +1,5 @@
-.DS_Store
+﻿.DS_Store
 
 /simple/
 
-build/CMakeFiles
-build/temp
-build/.vs
-build/bin
+/build

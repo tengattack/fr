@@ -538,12 +538,12 @@ template std::string* MakeCheckOpString<std::string, std::string>(
     const std::string&, const std::string&, const char* name);
 
 #if 0
-BASE_EXPORT void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
+void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
   (*os) << "nullptr";
 }
 
 template <typename T>
-BASE_EXPORT void MakeCheckOpValueString(std::ostream* os, T p) {
+void MakeCheckOpValueString(std::ostream* os, T p) {
   (*os) << p;
 }
 #endif
