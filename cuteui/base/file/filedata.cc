@@ -42,6 +42,8 @@ bool CFileData::Read(CFile& file)
 				Clear();
 			}
 		}
+	} else if (m_size == 0) {
+		return true;
 	}
 
 	m_size = 0;
