@@ -52,6 +52,17 @@ namespace base{
 		static bool DeleteW(LPCWSTR lpszPath);
 		static bool DeleteA(LPCSTR lpszPath);
 
+		static inline bool Exists(LPCTSTR lpszPath) {
+#ifdef _UNICODE
+			return ExistsW(lpszPath);
+#else
+			return ExistsA(lpszPath);
+#endif
+		}
+
+		static bool ExistsW(LPCWSTR lpszPath);
+		static bool ExistsA(LPCSTR lpszPath);
+
 	protected:
 		bool m_opened;
 		HANDLE m_hFile;
