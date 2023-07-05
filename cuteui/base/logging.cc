@@ -4,7 +4,8 @@
 
 #include "base/logging.h"
 
-#include "base/stdafx.h"
+#include <WinSock2.h>
+#include <Windows.h>
 
 #include <limits.h>
 #include <stdint.h>

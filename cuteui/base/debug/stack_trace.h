@@ -5,7 +5,8 @@
 #ifndef BASE_DEBUG_STACK_TRACE_H_
 #define BASE_DEBUG_STACK_TRACE_H_
 
-#include "base/stdafx.h"
+#include <WinSock2.h>
+#include <Windows.h>
 
 #include <stddef.h>
 

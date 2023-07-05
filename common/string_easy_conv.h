@@ -2,7 +2,7 @@
 #ifndef _TA_STRING_FMT_H_
 #define _TA_STRING_FMT_H_ 1
 
-#include "base/stdafx.h"
+#include <Windows.h>
 
 #include <common/strconv.h>
 
@@ -26,7 +26,7 @@ char* MbToUtf8String(const char *str);
 char* WcToMb(const wchar_t *str);
 wchar_t* MbToWc(const char *str);
 
-//szdataÐèÒªÏÈ·ÖÅäºÃ¿Õ¼ä
+//szdataï¿½ï¿½Òªï¿½È·ï¿½ï¿½ï¿½Ã¿Õ¼ï¿½
 void CodeFormat(const char *lspzFormat, char *szdata);
 
 wchar_t* Big5ToGb2312(const wchar_t *src);

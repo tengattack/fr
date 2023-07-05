@@ -1,4 +1,4 @@
-#include "base/stdafx.h"
+#include <Windows.h>
 
 #include "base/threading/platform_thread.h"
 
