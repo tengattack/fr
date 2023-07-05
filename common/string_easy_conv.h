@@ -26,7 +26,6 @@ char* MbToUtf8String(const char *str);
 char* WcToMb(const wchar_t *str);
 wchar_t* MbToWc(const char *str);
 
-//szdata��Ҫ�ȷ���ÿռ�
 void CodeFormat(const char *lspzFormat, char *szdata);
 
 wchar_t* Big5ToGb2312(const wchar_t *src);
