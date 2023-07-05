@@ -5,7 +5,7 @@ project(FrLibrary)
 set(CMAKE_GENERATOR_PLATFORM x86)
 
 set(SOURCES
-     cuteui/base/base64.cc
+     cutui/base/base64.cc
      cuteui/base/md5.cc
      cuteui/base/sha1_portable.cc
      cuteui/base/counter.cc
