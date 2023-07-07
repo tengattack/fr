@@ -8,6 +8,7 @@
 
 #include "build/build_config.h"
 #if defined(OS_WIN)
+#include <winsock2.h>
 #include <windows.h>
 #endif
 
