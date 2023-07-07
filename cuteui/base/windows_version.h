@@ -6,7 +6,10 @@
 #define BASE_WIN_WINDOWS_VERSION_H_
 #pragma once
 
-#include <Windows.h>
+#include "build/build_config.h"
+#if defined(OS_WIN)
+#include <windows.h>
+#endif
 
 namespace base {
 namespace win {
