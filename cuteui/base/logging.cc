@@ -4,21 +4,17 @@
 
 #include "base/logging.h"
 
-#if defined(OS_WIN)
-#include <winsock2.h>
-#include <windows.h>
-#endif
-
 #include <limits.h>
 #include <stdint.h>
-#include <shlwapi.h>
 
 #include "base/basictypes.h"
 #include "build/build_config.h"
 
 #if defined(OS_WIN)
 #include <io.h>
+#include <winsock2.h>
 #include <windows.h>
+#include <shlwapi.h>
 typedef HANDLE FileHandle;
 typedef HANDLE MutexHandle;
 // Windows warns on using write().  It prefers _write().

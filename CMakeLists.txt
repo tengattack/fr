@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.12)
-if(WIN32)
+if(WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
 set(CMAKE_GENERATOR_PLATFORM Win32)
 set(CMAKE_GENERATOR_TOOLSET "host=x86" CACHE STRING "Platform Toolset" FORCE)
 endif()
 project(FrLibrary)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if (WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
 set(CMAKE_SUPPRESS_REGENERATION true)
 set(CMAKE_MFC_FLAG 1)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd /Zi")
@@ -75,10 +75,10 @@ set(SOURCES
      ${COMMON_DIR}/wiseint.cc
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} common cuteui)
-
 if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX d)
 endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} common cuteui)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
