@@ -1,8 +1,20 @@
 cmake_minimum_required(VERSION 3.12)
+if(WIN32)
+set(CMAKE_GENERATOR_PLATFORM Win32)
+set(CMAKE_GENERATOR_TOOLSET "host=x86" CACHE STRING "Platform Toolset" FORCE)
+endif()
 project(FrLibrary)
 
-# 设置编译选项
-set(CMAKE_GENERATOR_PLATFORM x86)
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+set(CMAKE_SUPPRESS_REGENERATION true)
+set(CMAKE_MFC_FLAG 1)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd /Zi")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT /Zi")
+add_compile_definitions(_CRT_RAND_S NOMINMAX)
+add_definitions(-D_UNICODE)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+# Linux-specific configuration
+endif()
 
 set(BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cuteui/base)
 set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/common)
@@ -63,8 +75,10 @@ set(SOURCES
      ${COMMON_DIR}/wiseint.cc
 )
 
-# 编译静态库
-add_library(${PROJECT_NAME} STATIC ${SOURCES})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} common cuteui)
 
-# 添加头文件搜索路径
-include_directories(common cuteui)
+if(NOT CMAKE_DEBUG_POSTFIX)
+  set(CMAKE_DEBUG_POSTFIX d)
+endif()
+
+add_library(${PROJECT_NAME} STATIC ${SOURCES})

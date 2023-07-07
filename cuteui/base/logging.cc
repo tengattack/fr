@@ -4,8 +4,10 @@
 
 #include "base/logging.h"
 
-#include <WinSock2.h>
-#include <Windows.h>
+#if defined(OS_WIN)
+#include <winsock2.h>
+#include <windows.h>
+#endif
 
 #include <limits.h>
 #include <stdint.h>

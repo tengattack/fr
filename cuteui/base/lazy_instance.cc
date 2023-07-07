@@ -2,8 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <WinSock2.h>
-#include <Windows.h>
+#include "build/build_config.h"
+#if defined(OS_WIN)
+#include <winsock2.h>
+#include <windows.h>
+#endif
 
 #include "base/lazy_instance.h"
 
