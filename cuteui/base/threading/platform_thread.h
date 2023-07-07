@@ -5,6 +5,8 @@
 #include "base/basictypes.h"
 #include "base/base_export.h"
 
+typedef unsigned long PlatformThreadId;
+
 namespace base {
 
 // A namespace for low-level thread functions.

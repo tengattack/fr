@@ -1,6 +1,5 @@
 
 #include "fileselect_win.h"
-#include "build/build_config.h"
 #include <Commdlg.h>
 #include <Shlobj.h>
 
@@ -8,7 +7,7 @@
 #pragma comment(lib, "Shell32.lib")
 
 #define OP_FS_BUFFER_SIZE	1024
-#define OP_FS_DEF_FILTER	L"所有文件(*.*)|*.*||"
+#define OP_FS_DEF_FILTER	L"所有文件 (*.*)|*.*||"
 
 namespace operation{
 
