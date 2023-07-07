@@ -5,12 +5,6 @@
 #ifndef BASE_DEBUG_STACK_TRACE_H_
 #define BASE_DEBUG_STACK_TRACE_H_
 
-#include "build/build_config.h"
-#if defined(OS_WIN)
-#include <winsock2.h>
-#include <windows.h>
-#endif
-
 #include <stddef.h>
 
 #include <iosfwd>
@@ -19,6 +13,12 @@
 #include "base/base_export.h"
 // #include "base/debug/debugging_flags.h"
 #include "base/basictypes.h"
+#include "build/build_config.h"
+
+#if defined(OS_WIN)
+#include <winsock2.h>
+#include <windows.h>
+#endif
 
 #if defined(OS_POSIX)
 #include <unistd.h>
