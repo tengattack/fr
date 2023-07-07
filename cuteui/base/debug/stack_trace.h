@@ -15,16 +15,13 @@
 #include "base/basictypes.h"
 #include "build/build_config.h"
 
-#if defined(OS_WIN)
-#include <winsock2.h>
-#include <windows.h>
-#endif
-
 #if defined(OS_POSIX)
 #include <unistd.h>
 #endif
 
 #if defined(OS_WIN)
+#include <winsock2.h>
+#include <windows.h>
 struct _EXCEPTION_POINTERS;
 struct _CONTEXT;
 #endif
