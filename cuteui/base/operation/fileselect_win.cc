@@ -67,7 +67,6 @@ bool CFileSelect::Select()
 
 	} else {
 
-		//������
 		wchar_t szFilter[1024];
 		lstrcpynW(szFilter, m_filter.c_str(), 1024);
 		int filter_len_ = lstrlenW(szFilter);
