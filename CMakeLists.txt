@@ -60,7 +60,7 @@ set(SOURCES
      ${BASE_DIR}/string/string_piece.cc
      ${BASE_DIR}/string/utf_string_conversions.cc
      ${BASE_DIR}/string/string_split.cc
-     ${BASE_DIR}/operation/fileselect.cc
+     ${BASE_DIR}/operation/fileselect_win.cc
      ${BASE_DIR}/operation/threadpool.cc
      ${BASE_DIR}/third_party/dmg_fp/dtoa.cc
      ${BASE_DIR}/third_party/dmg_fp/g_fmt.cc
