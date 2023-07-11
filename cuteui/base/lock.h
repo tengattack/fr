@@ -7,8 +7,8 @@
 #pragma once
 
 #include "base/lock_impl.h"
-typedef unsigned long PlatformThreadId;
-//#include "base/platform_thread.h"
+
+#include "base/threading/platform_thread.h"
 
 // A convenient wrapper for an OS specific critical section.  The only real
 // intelligence in this class is in debug mode for the support for the

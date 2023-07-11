@@ -7,6 +7,7 @@
 #ifndef BASE_WIN_EVENT_TRACE_PROVIDER_H_
 #define BASE_WIN_EVENT_TRACE_PROVIDER_H_
 
+#include <winsock2.h>
 #include <windows.h>
 #include <wmistr.h>
 #include <evntrace.h>

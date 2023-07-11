@@ -7,6 +7,7 @@
 #ifndef BASE_ATOMICOPS_INTERNALS_X86_MSVC_H_
 #define BASE_ATOMICOPS_INTERNALS_X86_MSVC_H_
 
+#include <winsock2.h>
 #include <windows.h>
 
 #include <intrin.h>

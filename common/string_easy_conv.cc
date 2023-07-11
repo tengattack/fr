@@ -1,4 +1,6 @@
 
+#include <windows.h>
+
 #include <base/rand_util.h>
 
 #include "strconv.h"

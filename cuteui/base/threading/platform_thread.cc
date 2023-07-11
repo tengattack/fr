@@ -1,4 +1,9 @@
 
+#include "build/build_config.h"
+#if defined(OS_WIN)
+#include <windows.h>
+#endif
+
 #include "base/threading/platform_thread.h"
 
 namespace base {

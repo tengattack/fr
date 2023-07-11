@@ -24,7 +24,6 @@ char* MbToUtf8String(const char *str);
 char* WcToMb(const wchar_t *str);
 wchar_t* MbToWc(const char *str);
 
-//szdata需要先分配好空间
 void CodeFormat(const char *lspzFormat, char *szdata);
 
 wchar_t* Big5ToGb2312(const wchar_t *src);

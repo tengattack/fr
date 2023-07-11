@@ -65,7 +65,7 @@
 #include "string/string_split.cc"
 
 //operation
-#include "operation/fileselect.cc"
+#include "operation/fileselect_win.cc"
 #include "operation/threadpool.cc"
 
 //db

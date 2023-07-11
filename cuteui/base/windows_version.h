@@ -6,6 +6,9 @@
 #define BASE_WIN_WINDOWS_VERSION_H_
 #pragma once
 
+#include <winsock2.h>
+#include <windows.h>
+
 namespace base {
 namespace win {
 

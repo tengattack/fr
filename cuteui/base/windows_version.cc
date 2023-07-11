@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "windows_version.h"
-#include <windows.h>
 
 //#include "base/logging.h"
 

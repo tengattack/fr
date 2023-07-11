@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 #include "base/basictypes.h"
-//#include "base/logging.h"
+#include "base/logging.h"
 
 namespace {
 

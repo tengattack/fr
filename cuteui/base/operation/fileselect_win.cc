@@ -1,5 +1,5 @@
 
-#include "fileselect.h"
+#include "fileselect_win.h"
 #include <Commdlg.h>
 #include <Shlobj.h>
 
@@ -7,7 +7,7 @@
 #pragma comment(lib, "Shell32.lib")
 
 #define OP_FS_BUFFER_SIZE	1024
-#define OP_FS_DEF_FILTER	L"ËùÓÐÎÄ¼þ(*.*)|*.*||"
+#define OP_FS_DEF_FILTER	L"æ‰€æœ‰æ–‡ä»¶ (*.*)|*.*||"
 
 namespace operation{
 
@@ -67,7 +67,6 @@ bool CFileSelect::Select()
 
 	} else {
 
-		//¹ýÂËÆ÷
 		wchar_t szFilter[1024];
 		lstrcpynW(szFilter, m_filter.c_str(), 1024);
 		int filter_len_ = lstrlenW(szFilter);

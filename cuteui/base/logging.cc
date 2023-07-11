@@ -6,14 +6,15 @@
 
 #include <limits.h>
 #include <stdint.h>
-#include <shlwapi.h>
 
 #include "base/basictypes.h"
 #include "build/build_config.h"
 
 #if defined(OS_WIN)
 #include <io.h>
+#include <winsock2.h>
 #include <windows.h>
+#include <shlwapi.h>
 typedef HANDLE FileHandle;
 typedef HANDLE MutexHandle;
 // Windows warns on using write().  It prefers _write().
@@ -535,6 +536,7 @@ template std::string* MakeCheckOpString<unsigned int, unsigned long>(
 template std::string* MakeCheckOpString<std::string, std::string>(
     const std::string&, const std::string&, const char* name);
 
+#if 0
 void MakeCheckOpValueString(std::ostream* os, std::nullptr_t p) {
   (*os) << "nullptr";
 }
@@ -543,6 +545,7 @@ template <typename T>
 void MakeCheckOpValueString(std::ostream* os, T p) {
   (*os) << p;
 }
+#endif
 
 #if !defined(NDEBUG)
 // Displays a message box to the user with the error message in it.

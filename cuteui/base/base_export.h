@@ -1,8 +1,6 @@
 
-#define BASE_EXPORT
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
+#if defined(WIN32)
+#define BASE_EXPORT __declspec(dllexport)
+#else
+#define BASE_EXPORT __declspec(dllimport)
 #endif
