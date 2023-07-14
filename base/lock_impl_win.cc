@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "base/lock_impl.h"
+#include "base/lock_impl_win.h"
 
 LockImpl::LockImpl() {
   // The second parameter is the spin count, for short-held locks it avoid the

@@ -6,7 +6,7 @@
 #define BASE_LOCK_H_
 #pragma once
 
-#include "base/lock_impl.h"
+#include "base/lock_impl_win.h"
 
 #include "base/threading/platform_thread.h"
 

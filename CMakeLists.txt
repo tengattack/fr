@@ -3,7 +3,7 @@ if(WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
 set(CMAKE_GENERATOR_PLATFORM Win32)
 set(CMAKE_GENERATOR_TOOLSET "host=x86" CACHE STRING "Platform Toolset" FORCE)
 endif()
-project(FrLibrary)
+project(Fr)
 
 if (WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
 set(CMAKE_SUPPRESS_REGENERATION true)
@@ -16,7 +16,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # Linux-specific configuration
 endif()
 
-set(BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cuteui/base)
+set(BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/base)
 set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/common)
 
 set(SOURCES
@@ -79,6 +79,6 @@ if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX d)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} common cuteui)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} base common)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef BASE_LOCK_IMPL_H_
-#define BASE_LOCK_IMPL_H_
+#ifndef BASE_LOCK_IMPL_WIN_H_
+#define BASE_LOCK_IMPL_WIN_H_
 #pragma once
 
 #include "build/build_config.h"
@@ -56,4 +56,4 @@ class LockImpl {
 };
 
 
-#endif  // BASE_LOCK_IMPL_H_
+#endif  // BASE_LOCK_IMPL_WIN_H_
