@@ -3,3 +3,4 @@
 /simple/
 
 /build
+!/build/build_config.h
