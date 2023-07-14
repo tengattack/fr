@@ -71,7 +71,7 @@ typedef pthread_mutex_t* MutexHandle;
 #include "base/string/stringprintf.h"
 // #include "base/strings/sys_string_conversions.h"
 #include "base/string/utf_string_conversions.h"
-#include "base/lock_impl.h"
+#include "base/lock_impl_win.h"
 // #include "base/threading/platform_thread.h"
 #include "base/vlog.h"
 #if defined(OS_POSIX)
