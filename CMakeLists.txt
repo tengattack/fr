@@ -79,6 +79,6 @@ if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX d)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} base common)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
