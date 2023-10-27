@@ -10,8 +10,6 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set(CMAKE_MFC_FLAG 1)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd /Zi")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT /Zi")
-add_compile_definitions(_CRT_RAND_S NOMINMAX)
-add_definitions(-D_UNICODE)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # Linux-specific configuration
 endif()
