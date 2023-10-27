@@ -82,3 +82,17 @@ endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+  UNICODE
+  _UNICODE
+  WIN32
+  _CRT_RAND_S
+  NOMINMAX
+  $<$<CONFIG:Debug>:
+    _DEBUG
+  >
+  $<$<CONFIG:Release>:
+    NDEBUG
+  >
+)
