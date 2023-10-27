@@ -10,8 +10,6 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set(CMAKE_MFC_FLAG 1)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd /Zi")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT /Zi")
-add_compile_definitions(_CRT_RAND_S NOMINMAX)
-add_definitions(-D_UNICODE)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # Linux-specific configuration
 endif()
@@ -82,3 +80,17 @@ endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+  UNICODE
+  _UNICODE
+  WIN32
+  _CRT_RAND_S
+  NOMINMAX
+  $<$<CONFIG:Debug>:
+    _DEBUG
+  >
+  $<$<CONFIG:Release>:
+    NDEBUG
+  >
+)
